@@ -18,7 +18,7 @@ export class RegisterUseCase {
         // const prismaUsersRepository = new PrismaUsersRepository()
     
         if (userWithSameEmail) {
-            throw new UserAlreadyExistsError()
+            throw new UserAlreadyExistsError();
         }
 
         await this.usersRepository.create({
