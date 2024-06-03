@@ -1,0 +1,14 @@
+# docker run --name solid -e POSTGRESQL_USERNAME=solid -e POSTGRESQL_PASSWORD=solid
+# -e POSTGRESQL_DATABASE=solid -p 5432:5432 bitnami/postgresql:latest
+
+version: '3'
+
+services:
+    solid:
+        image: bitnami/postgresql
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRESQL_USERNAME=solid
+            - POSTGRESQL_PASSWORD=solid
+            - POSTGRESQL_DATABASE=solid
