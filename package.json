@@ -7,7 +7,10 @@
         "build": "tsup src --out-dir build",
         "start": "node build/server.js",
         "lint": "eslint . --ext .ts,.js --fix",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "vitest run",
+        "test:watch": "vitest watch src/use-cases/register.spec.ts",
+        "test:coverage": "vitest --coverage",
+        "test:ui": "vitest --ui"
     },
     "keywords": [],
     "author": "",
@@ -16,11 +19,15 @@
     "devDependencies": {
         "@rocketseat/eslint-config": "^2.2.2",
         "@types/node": "^20.13.0",
+        "@vitest/coverage-v8": "^1.6.0",
+        "@vitest/ui": "^1.6.0",
         "eslint": "^8.57.0",
         "prisma": "^5.14.0",
         "tsup": "^8.0.2",
         "tsx": "^4.11.0",
-        "typescript": "^5.4.5"
+        "typescript": "^5.4.5",
+        "vite-tsconfig-paths": "^4.3.2",
+        "vitest": "^1.6.0"
     },
     "dependencies": {
         "@prisma/client": "^5.14.0",

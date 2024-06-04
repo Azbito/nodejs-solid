@@ -4,17 +4,9 @@ import { UsersRepository } from "../users-repository";
 
 export class PrismaUsersRepository implements UsersRepository {
     async findByEmail(email: string) {
-        const user = await prisma.user.findUnique({
-            where: {
-                email
-            }
-        })
-    
-        if (user) {
-            throw new Error('Email already exists')
-        }
-
-        return user
+        return await prisma.user.findUnique({
+            where: { email }
+        });
     }
 
     async create(data: Prisma.UserCreateInput) {
