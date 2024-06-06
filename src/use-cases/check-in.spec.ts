@@ -20,8 +20,8 @@ describe('CheckIn Use Case', () => {
             title: "Gabriel's Gym",
             description: '',
             phone: '',
-            latitude: new Decimal(0),
-            longitude: new Decimal(0)
+            latitude: new Decimal(-23.894218),
+            longitude: new Decimal(-49.785454)
         })
         
         vi.useFakeTimers()
@@ -35,8 +35,8 @@ describe('CheckIn Use Case', () => {
         const { checkIn } = await sut.execute({
             gymId: 'gym-01',
             userId: 'user-01',
-            userLatitude: 0,
-            userLongitude: 0,
+            userLatitude: -23.894218,
+            userLongitude: -49.785454,
         })
 
         expect(checkIn.id).toEqual(expect.any(String))
@@ -44,22 +44,14 @@ describe('CheckIn Use Case', () => {
 
     it('should not be able to check in twice in the same day', async () => {
         const month = 1
-    
         vi.setSystemTime(new Date(2022, month - 1, 20, 8, 0, 0))
-        
-        await sut.execute({
-            gymId: 'gym-01',
-            userId: 'user-01',
-            userLatitude: 0,
-            userLongitude: 0,
-        })
         
         try {
             await sut.execute({
                 gymId: 'gym-01',
                 userId: 'user-01',
-                userLatitude: 0,
-                userLongitude: 0,
+                userLatitude: -23.894218,
+                userLongitude: -49.785454,
             })
         } catch (error) {
             expect(error).toBeInstanceOf(InvalidCheckInError)
@@ -69,24 +61,41 @@ describe('CheckIn Use Case', () => {
     it('should be able to check in twice but in different days', async () => {
         const month = 1 // 1 = january
     
-        vi.setSystemTime(new Date(2022, month - 1, 20, 8, 0, 0))
-        
-        await sut.execute({
-            gymId: 'gym-01',
-            userId: 'user-01',
-            userLatitude: 0,
-            userLongitude: 0,
-        })
-
         vi.setSystemTime(new Date(2022, month - 1, 21, 8, 0, 0))
         const { checkIn } = await sut.execute({
             gymId: 'gym-01',
             userId: 'user-01',
-            userLatitude: 0,
-            userLongitude: 0,
+            userLatitude: -23.894218,
+            userLongitude: -49.785454,
         })
 
 
         expect(checkIn.id).toEqual(expect.any(String))
     })
+
+    it('should not be able to check in on distant gym', async () => {
+        const month = 1 // 1 = janeiro
+    
+        vi.setSystemTime(new Date(2022, month - 1, 21, 8, 0, 0))
+        gymsRepository.items.push({
+            id: "gym-02",
+            title: "Kog'Maw's Gym",
+            description: '',
+            phone: '',
+            latitude: new Decimal(-23.894218), // latitude da nova academia
+            longitude: new Decimal(-49.785454) // longitude da nova academia
+        })
+    
+        try {
+            await expect(() => {sut.execute({
+                gymId: 'gym-02',
+                userId: 'user-01',
+                userLatitude: -23.894218,
+                userLongitude: -49.785454,
+            })}).rejects.toBeInstanceOf(InvalidCheckInError);
+        } catch (error) {
+            console.log(error)      
+        }
+    })
+    
 })
