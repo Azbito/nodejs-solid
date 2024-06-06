@@ -8,7 +8,7 @@
         "start": "node build/server.js",
         "lint": "eslint . --ext .ts,.js --fix",
         "test": "vitest run",
-        "test:watch": "vitest watch src/use-cases/auth.spec.ts",
+        "test:watch": "vitest watch",
         "test:coverage": "vitest --coverage",
         "test:ui": "vitest --ui"
     },

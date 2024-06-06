@@ -18,6 +18,9 @@ describe('Register Use Case', () => {
             async findByEmail(email) {
                 return null
             },
+            async findById(id) {
+                return null
+            },
             async create(data) {
                 return {
                     id: 'user-1',
